@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://traderapi.cryptometa.ai:8080/:path*"
+    }
+  ]
+}
