@@ -395,25 +395,28 @@ function TraderDetailsPage({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <a
-              href={`https://x402.cryptometa.ai/mint?token=ADT`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2 rounded text-sm font-semibold transition-all hover:scale-105"
-              style={{ background: '#1E2329', color: '#848E9C', border: '1px solid #2B3139' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#2B3139';
-                e.currentTarget.style.color = '#EAECEF';
-                e.currentTarget.style.borderColor = '#F0B90B';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#1E2329';
-                e.currentTarget.style.color = '#848E9C';
-                e.currentTarget.style.borderColor = '#2B3139';
-              }}
-            >
-              Mint ${tokenSymbol} By x402
-            </a>
+            <div className="flex flex-col items-start sm:items-end">
+              <a
+                href={`https://x402.cryptometa.ai/mint?token=ADT`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded text-xs sm:text-sm font-semibold transition-all hover:scale-105"
+                style={{ background: '#1E2329', color: '#848E9C', border: '1px solid #2B3139' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#2B3139';
+                  e.currentTarget.style.color = '#EAECEF';
+                  e.currentTarget.style.borderColor = '#F0B90B';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#1E2329';
+                  e.currentTarget.style.color = '#848E9C';
+                  e.currentTarget.style.borderColor = '#2B3139';
+                }}
+              >
+                {`Mint $${tokenSymbol}`}
+              </a>
+              <div className="mt-1 text-[6px] sm:text-xs leading-none font-semibold" style={{ color: '#848E9C' }}>Powered By x402</div>
+            </div>
             <button
               aria-label={language === 'zh' ? 'Mint 说明' : 'Mint Info'}
               onClick={() => setShowMintInfo(true)}
