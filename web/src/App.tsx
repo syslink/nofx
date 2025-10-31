@@ -342,6 +342,7 @@ function TraderDetailsPage({
 }) {
   const [showMintInfo, setShowMintInfo] = useState(false);
   const tokenSymbol = selectedTrader?.trader_name.split(' ').map(word => word.charAt(0).toUpperCase()).join('');
+  const mintUrl = ''//`https://x402.cryptometa.ai/mint?token=`;
   if (!selectedTrader) {
     return (
       <div className="space-y-6">
@@ -396,45 +397,25 @@ function TraderDetailsPage({
           </div>
           <div className="flex items-center gap-2">
             <div className="flex flex-col items-start sm:items-end">
-              <a
-                href={`https://x402.cryptometa.ai/mint?token=ADT`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => setShowMintInfo(true)}
                 className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded text-xs sm:text-sm font-semibold transition-all hover:scale-105"
                 style={{ background: '#1E2329', color: '#848E9C', border: '1px solid #2B3139' }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#2B3139';
-                  e.currentTarget.style.color = '#EAECEF';
-                  e.currentTarget.style.borderColor = '#F0B90B';
+                  (e.currentTarget as HTMLButtonElement).style.background = '#2B3139';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#EAECEF';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#F0B90B';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#1E2329';
-                  e.currentTarget.style.color = '#848E9C';
-                  e.currentTarget.style.borderColor = '#2B3139';
+                  (e.currentTarget as HTMLButtonElement).style.background = '#1E2329';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#848E9C';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#2B3139';
                 }}
               >
                 {`Mint $${tokenSymbol}`}
-              </a>
+              </button>
               <div className="mt-1 text-[6px] sm:text-xs leading-none font-semibold" style={{ color: '#848E9C' }}>Powered By x402</div>
             </div>
-            <button
-              aria-label={language === 'zh' ? 'Mint 说明' : 'Mint Info'}
-              onClick={() => setShowMintInfo(true)}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all"
-              style={{ background: '#1E2329', color: '#848E9C', border: '1px solid #2B3139' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#2B3139';
-                e.currentTarget.style.color = '#EAECEF';
-                e.currentTarget.style.borderColor = '#F0B90B';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#1E2329';
-                e.currentTarget.style.color = '#848E9C';
-                e.currentTarget.style.borderColor = '#2B3139';
-              }}
-            >
-              ?
-            </button>
           </div>
         </div>
       </div>
@@ -468,36 +449,36 @@ function TraderDetailsPage({
               {language === 'zh' ? (
                 <ol className="list-decimal pl-5 space-y-3" style={{ color: '#EAECEF' }}>
                   <li>
-                    此Token通过x402协议进行mint，支付货币为bsc网络的xUSDT代币，此代币为USDT代币的wrapper，符合EIP-3009协议标准，由此可实现强安全保证的x402协议
+                    此Token通过x402协议进行mint
                   </li>
                   <li>
-                    每个Agent总共募集资金上限为10万刀，期限为是三天，结束后，其中50%将用作此Agent的交易保证金，45%用于提供流动性，5%用于开发运营
+                    Mint周期为三天，结束后，50%用作交易保证金，40%用于提供流动性，10%用于开发运营
                   </li>
                   <li>
-                    如果Agent后续有盈利，我们会根据社区反馈意见，决定是否将部分盈利用于回购销毁此Token
+                    交易所获利润可用于回购销毁此Token
                   </li>
                 </ol>
               ) : (
                 <ol className="list-decimal pl-5 space-y-3" style={{ color: '#EAECEF' }}>
                   <li>
-                    This Token is minted via the x402 protocol. The payment currency is xUSDT on the BSC network, which is a wrapper of USDT and conforms to the EIP-3009 standard, enabling the strong security guarantees of the x402 protocol.
+                    This token is minted through the x402 protocol
                   </li>
                   <li>
-                    Each Agent has a total fundraising cap of $100,000 over a three-day period. After it ends, 50% will be used as the Agent’s trading margin, 45% for liquidity provision, and 5% for development and operations.
+                    The mint period is three days, after which 50% will be used for trading margin, 40% for liquidity provision, and 10% for development and operation
                   </li>
                   <li>
-                    If the Agent generates profits later, we will consider, based on community feedback, whether to use part of the profits to buy back and burn this Token.
+                    The profits from the exchange can be used to buy back and burn this token
                   </li>
                 </ol>
               )}
             </div>
             <div className="px-5 pb-5">
               <button
-                onClick={() => setShowMintInfo(false)}
+                onClick={() => { window.open(mintUrl, '_blank'); setShowMintInfo(false); }}
                 className="px-4 py-2 rounded text-sm font-semibold"
                 style={{ background: '#F0B90B', color: '#000' }}
               >
-                {language === 'zh' ? '我已了解' : 'Got it'}
+                {language === 'zh' ? '打开Mint页面' : 'Open Mint Page'}
               </button>
             </div>
           </div>
