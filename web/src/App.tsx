@@ -340,6 +340,8 @@ function TraderDetailsPage({
   lastUpdate: string;
   language: Language;
 }) {
+  const [showMintInfo, setShowMintInfo] = useState(false);
+  const tokenSymbol = selectedTrader?.trader_name.split(' ').map(word => word.charAt(0).toUpperCase()).join('');
   if (!selectedTrader) {
     return (
       <div className="space-y-6">
@@ -372,24 +374,132 @@ function TraderDetailsPage({
     <div>
       {/* Trader Header */}
       <div className="mb-6 rounded p-6 animate-scale-in" style={{ background: 'linear-gradient(135deg, rgba(240, 185, 11, 0.15) 0%, rgba(252, 213, 53, 0.05) 100%)', border: '1px solid rgba(240, 185, 11, 0.2)', boxShadow: '0 0 30px rgba(240, 185, 11, 0.15)' }}>
-        <h2 className="text-2xl font-bold mb-3 flex items-center gap-2" style={{ color: '#EAECEF' }}>
-          <span className="w-10 h-10 rounded-full flex items-center justify-center text-xl" style={{ background: 'linear-gradient(135deg, #F0B90B 0%, #FCD535 100%)' }}>
-            🤖
-          </span>
-          {selectedTrader.trader_name}
-        </h2>
-        <div className="flex items-center gap-4 text-sm" style={{ color: '#848E9C' }}>
-          <span>AI Model: <span className="font-semibold" style={{ color: selectedTrader.ai_model === 'qwen' ? '#c084fc' : '#60a5fa' }}>{selectedTrader.ai_model.toUpperCase()}</span></span>
-          {status && (
-            <>
-              <span>•</span>
-              <span>Cycles: {status.call_count}</span>
-              <span>•</span>
-              <span>Runtime: {status.runtime_minutes} min</span>
-            </>
-          )}
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold mb-3 flex items-center gap-2" style={{ color: '#EAECEF' }}>
+              <span className="w-10 h-10 rounded-full flex items-center justify-center text-xl" style={{ background: 'linear-gradient(135deg, #F0B90B 0%, #FCD535 100%)' }}>
+                🤖
+              </span>
+              {selectedTrader.trader_name}
+            </h2>
+            <div className="flex items-center gap-4 text-sm" style={{ color: '#848E9C' }}>
+              <span>AI Model: <span className="font-semibold" style={{ color: selectedTrader.ai_model === 'qwen' ? '#c084fc' : '#60a5fa' }}>{selectedTrader.ai_model.toUpperCase()}</span></span>
+              {status && (
+                <>
+                  <span>•</span>
+                  <span>Cycles: {status.call_count}</span>
+                  <span>•</span>
+                  <span>Runtime: {status.runtime_minutes} min</span>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href={`https://x402.cryptometa.ai/mint?token=ADT`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3 py-2 rounded text-sm font-semibold transition-all hover:scale-105"
+              style={{ background: '#1E2329', color: '#848E9C', border: '1px solid #2B3139' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#2B3139';
+                e.currentTarget.style.color = '#EAECEF';
+                e.currentTarget.style.borderColor = '#F0B90B';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#1E2329';
+                e.currentTarget.style.color = '#848E9C';
+                e.currentTarget.style.borderColor = '#2B3139';
+              }}
+            >
+              Mint ${tokenSymbol} By x402
+            </a>
+            <button
+              aria-label={language === 'zh' ? 'Mint 说明' : 'Mint Info'}
+              onClick={() => setShowMintInfo(true)}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all"
+              style={{ background: '#1E2329', color: '#848E9C', border: '1px solid #2B3139' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#2B3139';
+                e.currentTarget.style.color = '#EAECEF';
+                e.currentTarget.style.borderColor = '#F0B90B';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#1E2329';
+                e.currentTarget.style.color = '#848E9C';
+                e.currentTarget.style.borderColor = '#2B3139';
+              }}
+            >
+              ?
+            </button>
+          </div>
         </div>
       </div>
+
+      {showMintInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
+          <div className="w-full max-w-2xl rounded" style={{ background: '#1E2329', border: '1px solid #2B3139' }}>
+            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #2B3139' }}>
+              <div className="text-lg font-bold" style={{ color: '#EAECEF' }}>
+                {language === 'zh' ? 'Mint 说明' : 'Mint Instructions'}
+              </div>
+              <button
+                onClick={() => setShowMintInfo(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+                style={{ background: '#0B0E11', color: '#848E9C', border: '1px solid #2B3139' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#2B3139';
+                  e.currentTarget.style.color = '#EAECEF';
+                  e.currentTarget.style.borderColor = '#F0B90B';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#0B0E11';
+                  e.currentTarget.style.color = '#848E9C';
+                  e.currentTarget.style.borderColor = '#2B3139';
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="px-5 py-4 text-sm leading-6" style={{ color: '#EAECEF' }}>
+              {language === 'zh' ? (
+                <ol className="list-decimal pl-5 space-y-3" style={{ color: '#EAECEF' }}>
+                  <li>
+                    此Token通过x402协议进行mint，支付货币为bsc网络的xUSDT代币，此代币为USDT代币的wrapper，符合EIP-3009协议标准，由此可实现强安全保证的x402协议
+                  </li>
+                  <li>
+                    每个Agent总共募集资金上限为10万刀，期限为是三天，结束后，其中50%将用作此Agent的交易保证金，45%用于提供流动性，5%用于开发运营
+                  </li>
+                  <li>
+                    如果Agent后续有盈利，我们会根据社区反馈意见，决定是否将部分盈利用于回购销毁此Token
+                  </li>
+                </ol>
+              ) : (
+                <ol className="list-decimal pl-5 space-y-3" style={{ color: '#EAECEF' }}>
+                  <li>
+                    This Token is minted via the x402 protocol. The payment currency is xUSDT on the BSC network, which is a wrapper of USDT and conforms to the EIP-3009 standard, enabling the strong security guarantees of the x402 protocol.
+                  </li>
+                  <li>
+                    Each Agent has a total fundraising cap of $100,000 over a three-day period. After it ends, 50% will be used as the Agent’s trading margin, 45% for liquidity provision, and 5% for development and operations.
+                  </li>
+                  <li>
+                    If the Agent generates profits later, we will consider, based on community feedback, whether to use part of the profits to buy back and burn this Token.
+                  </li>
+                </ol>
+              )}
+            </div>
+            <div className="px-5 pb-5">
+              <button
+                onClick={() => setShowMintInfo(false)}
+                className="px-4 py-2 rounded text-sm font-semibold"
+                style={{ background: '#F0B90B', color: '#000' }}
+              >
+                {language === 'zh' ? '我已了解' : 'Got it'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Debug Info */}
       {account && (
